@@ -1,0 +1,158 @@
+<!-- 워드프레스 Custom HTML 블록에 전체 붙여넣기 -->
+<style>
+.ma-shop { font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; color: #1a1a18; max-width: 860px; margin: 0 auto; padding: 0 20px 80px; }
+.ma-hero { text-align: center; padding: 64px 20px 56px; }
+.ma-hero-tag { display: inline-block; padding: 5px 16px; border: 1.5px solid #c9541e; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #c9541e; margin-bottom: 20px; }
+.ma-hero h1 { font-size: clamp(28px, 5vw, 48px); font-weight: 900; line-height: 1.2; color: #1a1a18; margin: 0 0 12px; }
+.ma-hero h1 em { color: #c9541e; font-style: normal; }
+.ma-hero p { font-size: 15px; color: #5a5a54; line-height: 1.8; margin: 0; }
+
+/* 책 카드 */
+.ma-books { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+@media(max-width:640px){ .ma-books { grid-template-columns: 1fr; } }
+
+.ma-book-card { border: 1.5px solid #d8d5ce; border-radius: 16px; overflow: hidden; }
+.ma-book-header { padding: 24px 28px 20px; background: #1a1a18; }
+.ma-book-tag { display: inline-block; padding: 3px 10px; background: rgba(201,84,30,.25); border: 1px solid rgba(201,84,30,.5); border-radius: 12px; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #c9541e; margin-bottom: 10px; }
+.ma-book-title { font-size: 20px; font-weight: 900; color: #fff; line-height: 1.3; margin: 0 0 4px; }
+.ma-book-sub { font-size: 12px; color: rgba(255,255,255,.45); }
+.ma-book-body { padding: 24px 28px; background: #f8f8f6; }
+.ma-book-desc { font-size: 13.5px; color: #5a5a54; line-height: 1.8; margin-bottom: 20px; word-break: keep-all; }
+
+.ma-includes { list-style: none; padding: 0; margin: 0 0 24px; display: flex; flex-direction: column; gap: 8px; }
+.ma-includes li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: #1a1a18; line-height: 1.55; }
+.ma-includes li::before { content: '✓'; flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%; background: rgba(201,84,30,.12); color: #c9541e; font-size: 10px; font-weight: 900; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+
+.ma-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.ma-price-original { font-size: 13px; color: #a8a8a0; text-decoration: line-through; }
+.ma-price { font-size: 32px; font-weight: 900; color: #1a1a18; line-height: 1; }
+.ma-price span { font-size: 16px; font-weight: 700; color: #5a5a54; }
+.ma-price-note { font-size: 11px; color: #c9541e; font-weight: 700; margin-bottom: 18px; }
+
+.ma-btn { display: block; width: 100%; padding: 14px 0; background: #c9541e; color: #fff; text-align: center; border-radius: 10px; text-decoration: none; font-size: 15px; font-weight: 700; letter-spacing: .02em; transition: background .2s; }
+.ma-btn:hover { background: #a83e10; color: #fff; }
+.ma-btn-dark { background: #1a1a18; }
+.ma-btn-dark:hover { background: #333330; }
+
+/* 할인 배너 */
+.ma-discount { background: linear-gradient(135deg, #1a1a18 0%, #2a2a26 100%); border-radius: 14px; padding: 28px 32px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; margin-bottom: 32px; }
+@media(max-width:540px){ .ma-discount { grid-template-columns: 1fr; } }
+.ma-discount-tag { display: inline-block; padding: 3px 10px; background: rgba(201,84,30,.25); border: 1px solid rgba(201,84,30,.4); border-radius: 12px; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #c9541e; margin-bottom: 8px; }
+.ma-discount h3 { font-size: 17px; font-weight: 700; color: #fff; margin: 0 0 6px; line-height: 1.4; }
+.ma-discount p { font-size: 13px; color: rgba(255,255,255,.5); margin: 0; line-height: 1.7; word-break: keep-all; }
+.ma-discount-price { text-align: center; }
+.ma-discount-orig { font-size: 12px; color: rgba(255,255,255,.3); text-decoration: line-through; margin-bottom: 2px; }
+.ma-discount-final { font-size: 30px; font-weight: 900; color: #c9541e; line-height: 1; }
+.ma-discount-final span { font-size: 14px; font-weight: 700; color: rgba(255,255,255,.4); }
+.ma-discount-save { font-size: 11px; color: rgba(255,255,255,.35); margin-top: 3px; }
+
+/* 구매 방법 */
+.ma-howto { background: #f2f1ee; border-radius: 14px; padding: 28px 32px; }
+.ma-howto h3 { font-size: 15px; font-weight: 700; color: #1a1a18; margin: 0 0 18px; }
+.ma-steps { display: flex; gap: 0; flex-wrap: wrap; }
+.ma-step { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #5a5a54; }
+.ma-step-num { width: 26px; height: 26px; border-radius: 50%; background: #1a1a18; color: #fff; font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ma-step-arrow { color: #a8a8a0; margin: 0 8px; font-size: 14px; }
+.ma-notice { margin-top: 16px; font-size: 12px; color: #a8a8a0; line-height: 1.7; padding-top: 16px; border-top: 1px solid #d8d5ce; }
+</style>
+
+<div class="ma-shop">
+
+  <!-- 히어로 -->
+  <div class="ma-hero">
+    <div class="ma-hero-tag">MixingArt · 전자책</div>
+    <h1>믹싱을 제대로 배우는<br/><em>MixingArt 전자책</em></h1>
+    <p>귀로 듣고 손으로 이해하는 음악 제작자를 위한 마스터클래스</p>
+  </div>
+
+  <!-- 책 2종 -->
+  <div class="ma-books">
+
+    <!-- EQ 완전정복 -->
+    <div class="ma-book-card">
+      <div class="ma-book-header">
+        <div class="ma-book-tag">1기 한정 · 50명</div>
+        <div class="ma-book-title">Equalizer 완전정복</div>
+        <div class="ma-book-sub">170p · 14챕터 · EQ 마스터클래스</div>
+      </div>
+      <div class="ma-book-body">
+        <p class="ma-book-desc">
+          EQ의 기초부터 마스터링까지, 드럼·베이스·보컬·기타 실전 EQ, M/S EQ, AI EQ, 거장들의 비기까지 한 권에 완성.
+        </p>
+        <ul class="ma-includes">
+          <li>Equalizer 완전정복 PDF (170p · 14챕터)</li>
+          <li>주파수 레퍼런스 차트 (부록 A)</li>
+          <li>🎁 보너스 — EQ 플러그인 완전 가이드</li>
+          <li>개정판 업데이트 재발송</li>
+        </ul>
+        <div class="ma-price-row">
+          <div class="ma-price-original">20,000원</div>
+          <div class="ma-price">14,000<span>원</span></div>
+        </div>
+        <div class="ma-price-note">▲ 1기 한정 50명 · 마감 시 종료</div>
+        <a href="https://forms.gle/jKEeHspP1sVvPsJD7" class="ma-btn" target="_blank">구매 신청하기 →</a>
+      </div>
+    </div>
+
+    <!-- 컴프레서 완전정복 -->
+    <div class="ma-book-card">
+      <div class="ma-book-header">
+        <div class="ma-book-tag">한정 판매</div>
+        <div class="ma-book-title">컴프레서 완전정복</div>
+        <div class="ma-book-sub">컴프레서 마스터클래스</div>
+      </div>
+      <div class="ma-book-body">
+        <p class="ma-book-desc">
+          컴프레서의 원리부터 실전 활용까지, 어택·릴리즈·레이쇼·니 등 파라미터 완전 이해와 악기별 실전 세팅 완전 정복.
+        </p>
+        <ul class="ma-includes">
+          <li>컴프레서 완전정복 PDF</li>
+          <li>파라미터별 실전 세팅 가이드</li>
+          <li>악기별 컴프레서 레시피</li>
+          <li>개정판 업데이트 재발송</li>
+        </ul>
+        <div class="ma-price-row">
+          <div class="ma-price-original">24,000원</div>
+          <div class="ma-price">20,000<span>원</span></div>
+        </div>
+        <div class="ma-price-note">▲ 한정 특가</div>
+        <a href="https://forms.gle/822hZ36e1h1iaXAD6" class="ma-btn ma-btn-dark" target="_blank">구매 신청하기 →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 컴프레서 구매자 할인 배너 -->
+  <div class="ma-discount">
+    <div>
+      <div class="ma-discount-tag">기존 구매자 특별 혜택</div>
+      <h3>컴프레서 완전정복 구매자라면<br/>EQ 책 4,000원 추가 할인</h3>
+      <p>컴프레서 완전정복을 구매하신 분께 EQ 완전정복을 10,000원에 제공합니다.<br/>구글폼 작성 시 컴프레서 구매자임을 남겨주세요.</p>
+    </div>
+    <div class="ma-discount-price">
+      <div class="ma-discount-orig">14,000원</div>
+      <div class="ma-discount-final">10,000<span>원</span></div>
+      <div class="ma-discount-save">4,000원 할인</div>
+    </div>
+  </div>
+
+  <!-- 구매 방법 -->
+  <div class="ma-howto">
+    <h3>📦 구매 방법</h3>
+    <div class="ma-steps">
+      <div class="ma-step"><div class="ma-step-num">1</div>구글폼 작성</div>
+      <div class="ma-step-arrow">→</div>
+      <div class="ma-step"><div class="ma-step-num">2</div>계좌이체</div>
+      <div class="ma-step-arrow">→</div>
+      <div class="ma-step"><div class="ma-step-num">3</div>입금 확인</div>
+      <div class="ma-step-arrow">→</div>
+      <div class="ma-step"><div class="ma-step-num">4</div>이메일로 PDF 발송</div>
+    </div>
+    <p class="ma-notice">
+      입금 확인 후 24시간 이내 이메일로 PDF가 발송됩니다.<br/>
+      개인 학습 용도로만 사용해 주세요. 무단 배포·공유는 금지됩니다.<br/>
+      © 2026 MixingArt · INGSPR. All rights reserved.
+    </p>
+  </div>
+
+</div>
