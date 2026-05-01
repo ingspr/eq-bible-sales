@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Equalizer 완전정복 — MixingArt</title>
+  <meta name="description" content="귀로 듣고 손으로 이해하는 EQ 마스터클래스. 14챕터 170페이지, 음악 제작자를 위한 EQ 완전 가이드."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #f8f8f6;
+      --bg3: #f2f1ee;
+      --border: #d8d5ce;
+      --accent: #c9541e;
+      --accent2: #a83e10;
+      --text: #1a1a18;
+      --text-dim: #5a5a54;
+      --text-mute: #a8a8a0;
+      --green: #567a2e;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 400;
+      line-height: 1.85;
+    }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── 히어로 ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 40px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: 'EQ';
+      position: absolute;
+      font-size: 480px;
+      font-weight: 900;
+      color: var(--border);
+      opacity: .35;
+      font-family: 'Noto Serif KR', serif;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -.05em;
+      white-space: nowrap;
+    }
+    .hero-tag {
+      display: inline-block;
+      padding: 6px 16px;
+      border: 1.5px solid var(--accent);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(40px, 7vw, 80px);
+      font-weight: 900;
+      line-height: 1.15;
+      color: var(--text);
+      position: relative;
+      z-index: 1;
+      margin-bottom: 16px;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--text-dim);
+      position: relative;
+      z-index: 1;
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+    .hero-stat {
+      text-align: center;
+    }
+    .hero-stat-num {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1;
+    }
+    .hero-stat-num em { color: var(--accent); font-style: normal; }
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-mute);
+      margin-top: 4px;
+    }
+    .hero-cta {
+      display: inline-block;
+      padding: 18px 48px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 17px;
+      position: relative;
+      z-index: 1;
+      transition: background .2s, transform .15s;
+    }
+    .hero-cta:hover { background: var(--accent2); transform: translateY(-2px); }
+
+    /* ── 섹션 공통 ── */
+    .section { padding: 96px 40px; }
+    .section-inner { max-width: 760px; margin: 0 auto; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 24px; height: 2px;
+      background: var(--accent);
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    .section h2 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 48px;
+    }
+
+    /* ── 목차 미리보기 ── */
+    .toc-section { background: var(--bg); }
+    .chapter-list { display: flex; flex-direction: column; gap: 12px; }
+    .chapter-item {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 20px;
+      align-items: center;
+      padding: 20px 24px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .chapter-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      color: var(--accent);
+      background: rgba(201,84,30,.08);
+      border-radius: 8px;
+      padding: 8px 0;
+      text-align: center;
+    }
+    .chapter-num span { display: block; font-size: 20px; font-weight: 900; letter-spacing: 0; }
+    .chapter-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .chapter-desc { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+
+    /* ── 포함 내역 ── */
+    .includes-section { background: var(--bg3); }
+    .includes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .include-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .include-icon { font-size: 28px; margin-bottom: 12px; }
+    .include-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .include-desc { font-size: 13px; color: var(--text-dim); line-height: 1.65; }
+
+    /* ── 저자 프로필 ── */
+    .profile-section { background: var(--bg); }
+    .profile-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .profile-name {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .profile-role { font-size: 13px; color: var(--text-mute); margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+    .profile-bio { font-size: 14px; color: var(--text-dim); line-height: 1.9; margin-bottom: 28px; word-break: keep-all; }
+    .profile-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .stat-item { padding: 18px 16px; background: var(--bg2); }
+    .stat-num { font-size: 24px; font-weight: 900; color: var(--green); margin-bottom: 4px; }
+    .stat-label { font-size: 11px; color: var(--text-mute); word-break: keep-all; line-height: 1.5; }
+    .timeline { display: flex; flex-direction: column; }
+    .tl-item { display: grid; grid-template-columns: 52px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-year { font-size: 12px; font-weight: 700; color: var(--green); padding-top: 2px; }
+    .tl-desc { font-size: 13.5px; color: var(--text-dim); line-height: 1.7; word-break: keep-all; }
+
+    /* ── 구매 섹션 ── */
+    .purchase-section {
+      background: var(--text);
+      padding: 96px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .purchase-section::before {
+      content: '14,000';
+      position: absolute;
+      font-size: 260px;
+      font-weight: 900;
+      color: rgba(255,255,255,.03);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      white-space: nowrap;
+      letter-spacing: -.04em;
+    }
+    .purchase-inner { max-width: 520px; margin: 0 auto; position: relative; z-index: 1; }
+    .purchase-badge {
+      display: inline-block;
+      padding: 5px 14px;
+      border: 1.5px solid var(--accent);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+    .purchase-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+    .purchase-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,.45);
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+    .purchase-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px;
+      padding: 36px 40px;
+      margin-bottom: 20px;
+    }
+    .purchase-includes {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+    .pi-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: rgba(255,255,255,.75);
+    }
+    .pi-item::before {
+      content: '✓';
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: rgba(201,84,30,.3);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .purchase-price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .purchase-price { font-size: 52px; font-weight: 900; color: #fff; letter-spacing: -.02em; line-height: 1; }
+    .purchase-price-unit { font-size: 20px; font-weight: 700; color: rgba(255,255,255,.55); }
+    .purchase-limit { font-size: 12px; color: var(--accent); font-weight: 700; letter-spacing: .06em; margin-bottom: 28px; }
+    .purchase-btn {
+      display: block;
+      width: 100%;
+      padding: 18px 0;
+      background: var(--accent);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 700;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .purchase-btn:hover { background: var(--accent2); transform: translateY(-2px); }
+    .purchase-notice {
+      font-size: 12px;
+      color: rgba(255,255,255,.28);
+      line-height: 1.7;
+    }
+
+    /* ── 푸터 ── */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-mute);
+      font-size: 13px;
+      background: var(--bg);
+    }
+
+    /* ── 반응형 ── */
+    @media (max-width: 640px) {
+      .includes-grid { grid-template-columns: 1fr; }
+      .profile-box { grid-template-columns: 1fr; gap: 32px; }
+      .hero-stats { gap: 20px; }
+      .purchase-card { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 히어로 -->
+  <section class="hero">
+    <div class="hero-tag">전자책 · 1기 한정 50명</div>
+    <h1><em>Equalizer</em> 완전정복</h1>
+    <p class="hero-sub">
+      "대충"에서 벗어나 귀로 듣고 손으로 이해하는<br/>
+      음악 제작자를 위한 EQ 마스터클래스
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num"><em>14</em></div>
+        <div class="hero-stat-label">챕터</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><em>170</em></div>
+        <div class="hero-stat-label">페이지</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><em>50</em></div>
+        <div class="hero-stat-label">명 한정</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><em>14,000</em>원</div>
+        <div class="hero-stat-label">1기 특가</div>
+      </div>
+    </div>
+    <a href="#purchase" class="hero-cta">구매 신청하기 →</a>
+  </section>
+
+  <!-- 목차 -->
+  <section class="section toc-section">
+    <div class="section-inner">
+      <div class="section-label">Contents</div>
+      <h2>14챕터로 완성하는 EQ 완전 이해</h2>
+      <div class="chapter-list">
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>01</span></div>
+          <div><div class="chapter-title">EQ를 켜기 전에</div><div class="chapter-desc">EQ가 필요한 순간과 아닌 순간 · 목표 음색 설정법</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>02</span></div>
+          <div><div class="chapter-title">EQ 기본 개념</div><div class="chapter-desc">FREQ · GAIN · Q 역할 · 커브 종류 · 플러그인마다 소리가 다른 이유</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>03</span></div>
+          <div><div class="chapter-title">부스트와 컷, 제대로 쓰는 법</div><div class="chapter-desc">원하는 대역 탐색법 · 악기별 주파수 가이드 · EQ 적용 순서</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>04</span></div>
+          <div><div class="chapter-title">드럼과 베이스 실전 EQ</div><div class="chapter-desc">킥 · 스네어 · 하이햇 · 베이스 각각의 접근법 · 패럴렐 EQ</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>05</span></div>
+          <div><div class="chapter-title">보컬 · 기타 · 피아노 실전 EQ</div><div class="chapter-desc">악기별 EQ 10원칙 · FabFilter Pro-Q 보컬 EQ 실전</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>06</span></div>
+          <div><div class="chapter-title">프로의 EQ 철학 & 실전 테크닉</div><div class="chapter-desc">그래픽·파라메트릭 심화 · PA EQ · 잡음 제거 · 토탈 EQ</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>07</span></div>
+          <div><div class="chapter-title">M/S EQ & 마스터링 EQ</div><div class="chapter-desc">Mid/Side 독립 처리 · 스테레오 조형 · Pultec 테크닉</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>08</span></div>
+          <div><div class="chapter-title">그래픽 이퀄라이저 심층 가이드</div><div class="chapter-desc">밴드 수·dB 범위 선택 · 스튜디오·PA 활용 · 룸 보정</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>09</span></div>
+          <div><div class="chapter-title">AI 이퀄라이저 — Smart:EQ 3 & 4</div><div class="chapter-desc">AI 프로파일 · 다이나믹 EQ · 그루핑 · 레퍼런스 매칭</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>10</span></div>
+          <div><div class="chapter-title">이퀄라이저 종류 & 빈티지 EQ 가이드</div><div class="chapter-desc">EQ 8가지 유형 · 위상 특성 · 시대별 빈티지 EQ 타임라인</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>11</span></div>
+          <div><div class="chapter-title">EQ 플러그인 총망라 & 추천</div><div class="chapter-desc">정밀·아날로그·다이나믹·AI·마스터링·무료 플러그인 총정리</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>12</span></div>
+          <div><div class="chapter-title">장르별 EQ 전략 & 주파수 마스킹</div><div class="chapter-desc">팝·록·힙합·EDM·재즈 장르별 레시피 · 마스킹 해결법</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>13</span></div>
+          <div><div class="chapter-title">거장들의 EQ 비기</div><div class="chapter-desc">Clearmountain · CLA · Scheps · Pensado — 8인의 현장 비기</div></div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">CH<span>14</span></div>
+          <div><div class="chapter-title">프로 엔지니어의 빈티지 EQ 실전</div><div class="chapter-desc">Neve 1073 · Pultec EQP-1A · API 550A — 현역 3인의 실제 세팅</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 포함 내역 -->
+  <section class="section includes-section">
+    <div class="section-inner">
+      <div class="section-label">What's Included</div>
+      <h2>구매하면 받는 것</h2>
+      <div class="includes-grid">
+        <div class="include-card">
+          <div class="include-icon">📖</div>
+          <div class="include-title">Equalizer 완전정복 PDF</div>
+          <div class="include-desc">170페이지 · 14챕터 · 이론부터 실전까지 체계적으로 정리된 EQ 완전 교본</div>
+        </div>
+        <div class="include-card">
+          <div class="include-icon">📊</div>
+          <div class="include-title">주파수 레퍼런스 차트</div>
+          <div class="include-desc">악기별 주파수 지도 · 퀵 처방 · Q값 가이드 · M/S 체크리스트 (부록 A)</div>
+        </div>
+        <div class="include-card">
+          <div class="include-icon">🔗</div>
+          <div class="include-title">목차 클릭 이동</div>
+          <div class="include-desc">PDF 내 목차에서 챕터로 바로 이동 · INDEX 버튼으로 목차 복귀</div>
+        </div>
+        <div class="include-card">
+          <div class="include-icon">🔄</div>
+          <div class="include-title">개정판 재발송</div>
+          <div class="include-desc">내용 추가·수정 시 구매자에게 업데이트된 버전 이메일 재발송</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 저자 프로필 -->
+  <section class="section profile-section">
+    <div class="section-inner">
+      <div class="section-label">Engineer Profile</div>
+      <h2 style="margin-bottom:32px;">만든 사람</h2>
+      <div class="profile-box">
+        <div>
+          <div class="profile-name">INGSPR</div>
+          <p class="profile-role">Mixing &amp; Mastering Engineer / MixingArt</p>
+          <p class="profile-bio">싱어송라이터로 출발해 음악의 모든 과정을 직접 경험한 뒤, 2013년 Spring Studio를 설립하여 본격적인 믹싱 엔지니어의 길을 시작했습니다. 일본의 정석적인 믹싱 개념을 체계적으로 정리하고, 미국 거장들의 기법을 심층 연구해 믹싱의 근본 원리들을 스스로 깨달아 정리했습니다. 그 노하우를 바탕으로 배출한 제자들 중에는 한국 3대 대형 기획사에 입사한 경우도 있습니다.</p>
+          <div class="profile-stats">
+            <div class="stat-item"><div class="stat-num">1,000+</div><div class="stat-label">믹스 작업물</div></div>
+            <div class="stat-item"><div class="stat-num">100+</div><div class="stat-label">레슨생 배출</div></div>
+            <div class="stat-item"><div class="stat-num">9년+</div><div class="stat-label">MixingArt 운영</div></div>
+            <div class="stat-item"><div class="stat-num">3대</div><div class="stat-label">기획사 제자 입사 검증</div></div>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-year">~2013</div><div class="tl-desc">싱어송라이터 활동 — 작곡·편곡·녹음 전 과정 직접 경험</div></div>
+          <div class="tl-item"><div class="tl-year">2013</div><div class="tl-desc">Spring Studio 설립 — 믹싱·레슨 본격 시작</div></div>
+          <div class="tl-item"><div class="tl-year">2014–</div><div class="tl-desc">믹싱 근본 원리 연구 — 일본 정석 개념 → 미국 거장 기법 심층 연구</div></div>
+          <div class="tl-item"><div class="tl-year">2017</div><div class="tl-desc">MixingArt 설립 — 믹싱·마스터링 전문 / 1:1 마스터클래스 운영 / 현재까지</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 구매 -->
+  <section class="purchase-section" id="purchase">
+    <div class="purchase-inner">
+      <div class="purchase-badge">1기 한정 · 50명 마감</div>
+      <h2 class="purchase-title">지금 바로 시작하세요</h2>
+      <p class="purchase-sub">
+        구글폼 작성 → 계좌이체 → 이메일로 PDF 발송<br/>
+        입금 확인 후 24시간 이내 발송
+      </p>
+      <div class="purchase-card">
+        <div class="purchase-includes">
+          <div class="pi-item">Equalizer 완전정복 PDF (170p · 14챕터)</div>
+          <div class="pi-item">주파수 레퍼런스 차트 (부록 A)</div>
+          <div class="pi-item">목차 클릭 이동 · INDEX 버튼</div>
+          <div class="pi-item">개정판 업데이트 재발송</div>
+        </div>
+        <div class="purchase-price-row">
+          <div class="purchase-price">14,000</div>
+          <div class="purchase-price-unit">원</div>
+        </div>
+        <div class="purchase-limit">▲ 1기 한정 50명 · 마감 시 판매 종료</div>
+        <a href="https://forms.gle/jKEeHspP1sVvPsJD7" class="purchase-btn" target="_blank">
+          구매 신청하기 →
+        </a>
+      </div>
+      <p class="purchase-notice">
+        개인 학습 용도 · 무단 배포 및 공유 금지<br/>
+        © 2026 MixingArt · INGSPR. All rights reserved.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    Equalizer 완전정복 &nbsp;·&nbsp; MixingArt · INGSPR
+  </footer>
+
+</body>
+</html>
