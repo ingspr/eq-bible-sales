@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "eq-bible-sales",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "3000", "--directory", "/Users/ingspr/Downloads/eq-bible-sales"],
+      "port": 3000
+    }
+  ]
+}
