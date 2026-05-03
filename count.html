@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>남은 수량</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+html,body { background:transparent; font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif; }
+.ma-counter { background:linear-gradient(135deg,#c9541e 0%,#a83e10 100%); border-radius:16px; padding:32px 28px; text-align:center; color:#fff; }
+.ma-tag { font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; opacity:.85; margin-bottom:10px; }
+.ma-label { font-size:14px; opacity:.9; margin-bottom:6px; }
+.ma-num { font-size:72px; font-weight:900; line-height:1; letter-spacing:-.03em; }
+.ma-num span { font-size:32px; font-weight:700; opacity:.7; }
+.ma-bar-wrap { margin-top:14px; height:8px; background:rgba(255,255,255,.2); border-radius:4px; overflow:hidden; }
+.ma-bar { height:100%; background:#fff; width:0%; transition:width .8s; }
+.ma-soldout { background:#1a1a18; color:#fff; border-radius:16px; padding:40px 28px; text-align:center; display:none; }
+.ma-soldout-tag { font-size:11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:#c9541e; margin-bottom:12px; }
+.ma-soldout-title { font-size:32px; font-weight:900; line-height:1.2; letter-spacing:-.02em; margin-bottom:10px; }
+.ma-soldout-sub { font-size:13px; opacity:.7; line-height:1.7; }
+.ma-soldout-sub b { color:#c9541e; }
+</style>
+</head>
+<body>
+<div id="ma-counter" class="ma-counter">
+  <div class="ma-tag">EQ 완전정복 · 1기 한정 · 5월 31일 마감</div>
+  <div class="ma-label">EQ 남은 수량</div>
+  <div class="ma-num"><span id="ma-remaining">--</span><span> / 50권</span></div>
+  <div class="ma-bar-wrap"><div id="ma-bar" class="ma-bar"></div></div>
+</div>
+<div id="ma-soldout" class="ma-soldout">
+  <div class="ma-soldout-tag">SOLD OUT</div>
+  <div class="ma-soldout-title">1기 50권 모두 마감</div>
+  <div class="ma-soldout-sub">관심 가져주셔서 감사합니다.<br/>2기 오픈 알림은 인스타 <b>@mixingart</b> 에서 받으실 수 있습니다.</div>
+</div>
+<script>
+(function(){
+  var MAX=50, API='https://script.google.com/macros/s/AKfycbzQ3qUgTvum8DdpOtDXevGGzaeK_AQdM-LEcoO89eNVHm5_kc-ScjDC5PQT-BspzxnP/exec';
+  function set(c,m){
+    if(m) MAX=m;
+    c=Math.max(0,Math.min(MAX,c|0));
+    var r=MAX-c;
+    if (r<=0) {
+      document.getElementById('ma-counter').style.display='none';
+      document.getElementById('ma-soldout').style.display='block';
+      return;
+    }
+    document.getElementById('ma-remaining').textContent=r;
+    document.getElementById('ma-bar').style.width=(c/MAX*100)+'%';
+  }
+  set(0);
+  fetch(API).then(function(r){return r.json();}).then(function(d){ if(d&&typeof d.count==='number') set(d.count, d.max); }).catch(function(){});
+})();
+</script>
+</body>
+</html>
