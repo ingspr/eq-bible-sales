@@ -476,6 +476,26 @@
 </head>
 <body>
 
+  <!-- 남은 자리 카운터 (최상단) -->
+  <div style="background:linear-gradient(135deg,#c9541e 0%,#a83e10 100%);color:#fff;text-align:center;padding:36px 20px 32px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.85;margin-bottom:10px;">1기 한정 · 5월 31일 마감</div>
+    <div style="font-size:14px;opacity:.9;margin-bottom:4px;">남은 자리</div>
+    <div style="font-size:96px;font-weight:900;line-height:1;letter-spacing:-.04em;">
+      <span id="ma-remaining">--</span><span style="font-size:36px;font-weight:700;opacity:.7;"> / 50명</span>
+    </div>
+    <div style="margin:20px auto 0;height:10px;background:rgba(255,255,255,.2);border-radius:5px;overflow:hidden;max-width:480px;">
+      <div id="ma-bar" style="height:100%;background:#fff;width:0%;transition:width .8s;"></div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var MAX=50, API='';  // Apps Script 웹앱 URL 받으면 여기 채우기
+    function set(c){ var r=Math.max(0,MAX-c); document.getElementById('ma-remaining').textContent=r; document.getElementById('ma-bar').style.width=(c/MAX*100)+'%'; }
+    set(0);
+    if(API) fetch(API).then(function(r){return r.json();}).then(function(d){ if(d&&typeof d.count==='number') set(d.count); }).catch(function(){});
+  })();
+  </script>
+
   <!-- 히어로 -->
   <section class="hero">
     <div class="hero-tag">전자책 · 1기 한정 50명 · 5월 말 마감</div>
@@ -503,28 +523,6 @@
       </div>
     </div>
     <a href="#purchase" class="hero-cta">구매 신청하기 →</a>
-  </section>
-
-  <!-- 남은 자리 카운터 -->
-  <section style="padding:40px 20px;">
-    <div style="max-width:760px;margin:0 auto;background:linear-gradient(135deg,#c9541e 0%,#a83e10 100%);border-radius:16px;padding:36px 32px;text-align:center;color:#fff;">
-      <div style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin-bottom:12px;">1기 한정 · 5월 31일 마감</div>
-      <div style="font-size:15px;opacity:.9;margin-bottom:8px;">남은 자리</div>
-      <div style="font-size:88px;font-weight:900;line-height:1;letter-spacing:-.03em;">
-        <span id="ma-remaining">--</span><span style="font-size:36px;font-weight:700;opacity:.7;"> / 50명</span>
-      </div>
-      <div style="margin-top:18px;height:10px;background:rgba(255,255,255,.2);border-radius:5px;overflow:hidden;max-width:480px;margin-left:auto;margin-right:auto;">
-        <div id="ma-bar" style="height:100%;background:#fff;width:0%;transition:width .8s;"></div>
-      </div>
-    </div>
-    <script>
-    (function(){
-      var MAX=50, API='';  // Apps Script 웹앱 URL 받으면 여기 채우기
-      function set(c){ var r=Math.max(0,MAX-c); document.getElementById('ma-remaining').textContent=r; document.getElementById('ma-bar').style.width=(c/MAX*100)+'%'; }
-      set(0);
-      if(API) fetch(API).then(function(r){return r.json();}).then(function(d){ if(d&&typeof d.count==='number') set(d.count); }).catch(function(){});
-    })();
-    </script>
   </section>
 
   <!-- 목차 -->
