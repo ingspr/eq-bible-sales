@@ -405,12 +405,72 @@
     .discount-final span { font-size: 16px; font-weight: 700; color: rgba(255,255,255,.5); }
     .discount-save { font-size: 11px; color: rgba(255,255,255,.4); margin-top: 4px; }
 
+    /* 세트 구매 */
+    .bundle-section { background: var(--bg3); padding: 0 40px 80px; }
+    .bundle-box {
+      max-width: 760px;
+      margin: 0 auto;
+      background: #fff;
+      border: 2px solid var(--accent);
+      border-radius: 16px;
+      padding: 36px 40px;
+    }
+    .bundle-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+    .bundle-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(201,84,30,.10);
+      border: 1px solid rgba(201,84,30,.4);
+      border-radius: 20px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .bundle-title { font-size: 20px; font-weight: 900; color: var(--text); line-height: 1.3; margin-bottom: 6px; }
+    .bundle-desc { font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+    .bundle-price-box { text-align: right; flex-shrink: 0; }
+    .bundle-original { font-size: 13px; color: var(--text-mute); text-decoration: line-through; margin-bottom: 4px; }
+    .bundle-final { font-size: 42px; font-weight: 900; color: var(--accent); line-height: 1; }
+    .bundle-final span { font-size: 18px; font-weight: 700; color: var(--text-dim); }
+    .bundle-save {
+      display: inline-block;
+      background: rgba(201,84,30,.10);
+      color: var(--accent);
+      font-size: 12px; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px; margin-top: 6px;
+    }
+    .bundle-items { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+    .bundle-item {
+      flex: 1; min-width: 180px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+    .bundle-item-label { font-size: 10px; font-weight: 700; letter-spacing: .12em; color: var(--text-mute); margin-bottom: 6px; }
+    .bundle-item-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .bundle-item-price { font-size: 13px; color: var(--text-dim); }
+    .bundle-item-price s { color: var(--text-mute); }
+    .bundle-btn {
+      display: block; width: 100%;
+      padding: 16px 0;
+      background: var(--accent); color: #fff;
+      text-align: center; border-radius: 12px;
+      text-decoration: none; font-size: 15px; font-weight: 700;
+      transition: background .2s, transform .15s;
+    }
+    .bundle-btn:hover { background: var(--accent2); transform: translateY(-2px); }
+    .bundle-note { margin-top: 12px; font-size: 12px; color: var(--text-mute); text-align: center; line-height: 1.7; }
+
     /* ── 반응형 ── */
     @media (max-width: 640px) {
       .includes-grid { grid-template-columns: 1fr; }
       .profile-box { grid-template-columns: 1fr; gap: 32px; }
       .hero-stats { gap: 20px; }
       .purchase-card { padding: 28px 24px; }
+      .bundle-price-box { text-align: left; }
+      .discount-box { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -443,6 +503,28 @@
       </div>
     </div>
     <a href="#purchase" class="hero-cta">구매 신청하기 →</a>
+  </section>
+
+  <!-- 남은 자리 카운터 -->
+  <section style="padding:40px 20px;">
+    <div style="max-width:760px;margin:0 auto;background:linear-gradient(135deg,#c9541e 0%,#a83e10 100%);border-radius:16px;padding:36px 32px;text-align:center;color:#fff;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin-bottom:12px;">1기 한정 · 5월 31일 마감</div>
+      <div style="font-size:15px;opacity:.9;margin-bottom:8px;">남은 자리</div>
+      <div style="font-size:88px;font-weight:900;line-height:1;letter-spacing:-.03em;">
+        <span id="ma-remaining">--</span><span style="font-size:36px;font-weight:700;opacity:.7;"> / 50명</span>
+      </div>
+      <div style="margin-top:18px;height:10px;background:rgba(255,255,255,.2);border-radius:5px;overflow:hidden;max-width:480px;margin-left:auto;margin-right:auto;">
+        <div id="ma-bar" style="height:100%;background:#fff;width:0%;transition:width .8s;"></div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var MAX=50, API='';  // Apps Script 웹앱 URL 받으면 여기 채우기
+      function set(c){ var r=Math.max(0,MAX-c); document.getElementById('ma-remaining').textContent=r; document.getElementById('ma-bar').style.width=(c/MAX*100)+'%'; }
+      set(0);
+      if(API) fetch(API).then(function(r){return r.json();}).then(function(d){ if(d&&typeof d.count==='number') set(d.count); }).catch(function(){});
+    })();
+    </script>
   </section>
 
   <!-- 목차 -->
@@ -589,6 +671,41 @@
         <div class="discount-final">10,000<span>원</span></div>
         <div class="discount-save">4,000원 할인</div>
       </div>
+    </div>
+  </section>
+
+  <!-- 세트 구매 -->
+  <section class="bundle-section">
+    <div class="bundle-box">
+      <div class="bundle-top">
+        <div>
+          <div class="bundle-tag">두 권 세트 · 한정 특가</div>
+          <div class="bundle-title">EQ + 컴프레서<br/>두 권 묶음으로 30,000원</div>
+          <div class="bundle-desc">
+            개별 구매 시 34,000원 → 세트로 4,000원 절약<br/>
+            구글폼 작성 시 "세트 구매"라고 남겨주시면 됩니다.
+          </div>
+        </div>
+        <div class="bundle-price-box">
+          <div class="bundle-original">개별 34,000원</div>
+          <div class="bundle-final">30,000<span>원</span></div>
+          <div class="bundle-save">4,000원 할인</div>
+        </div>
+      </div>
+      <div class="bundle-items">
+        <div class="bundle-item">
+          <div class="bundle-item-label">BOOK 01</div>
+          <div class="bundle-item-title">Equalizer 완전정복</div>
+          <div class="bundle-item-price">170p · 14챕터 &nbsp;<s>20,000원</s> → 14,000원</div>
+        </div>
+        <div class="bundle-item">
+          <div class="bundle-item-label">BOOK 02</div>
+          <div class="bundle-item-title">컴프레서 완전정복</div>
+          <div class="bundle-item-price">파라미터 완전 이해 &nbsp;<s>24,000원</s> → 20,000원</div>
+        </div>
+      </div>
+      <a href="https://forms.gle/jKEeHspP1sVvPsJD7" class="bundle-btn" target="_blank">세트로 구매 신청하기 →</a>
+      <p class="bundle-note">폼 작성 시 "세트 구매"라고 입력해주세요 · 두 PDF 모두 이메일로 발송됩니다</p>
     </div>
   </section>
 

@@ -65,6 +65,26 @@
     <p>귀로 듣고 손으로 이해하는 음악 제작자를 위한 마스터클래스</p>
   </div>
 
+  <!-- 남은 자리 카운터 -->
+  <div style="background:linear-gradient(135deg,#c9541e 0%,#a83e10 100%);border-radius:16px;padding:32px 28px;margin-bottom:32px;text-align:center;color:#fff;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.85;margin-bottom:10px;">1기 한정 · 5월 31일 마감</div>
+    <div style="font-size:14px;opacity:.9;margin-bottom:6px;">남은 자리</div>
+    <div style="font-size:72px;font-weight:900;line-height:1;letter-spacing:-.03em;">
+      <span id="ma-remaining">--</span><span style="font-size:32px;font-weight:700;opacity:.7;"> / 50명</span>
+    </div>
+    <div style="margin-top:14px;height:8px;background:rgba(255,255,255,.2);border-radius:4px;overflow:hidden;">
+      <div id="ma-bar" style="height:100%;background:#fff;width:0%;transition:width .8s;"></div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var MAX=50, API='';  // Apps Script 웹앱 URL 받으면 여기 채우기
+    function set(c){ var r=Math.max(0,MAX-c); document.getElementById('ma-remaining').textContent=r; document.getElementById('ma-bar').style.width=(c/MAX*100)+'%'; }
+    set(0);
+    if(API) fetch(API).then(function(r){return r.json();}).then(function(d){ if(d&&typeof d.count==='number') set(d.count); }).catch(function(){});
+  })();
+  </script>
+
   <!-- 책 2종 -->
   <div class="ma-books">
 
@@ -120,6 +140,23 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- 세트 구매 배너 -->
+  <div style="border: 2px solid #c9541e; border-radius: 14px; padding: 28px 32px; margin-bottom: 24px; background: #fff8f5;">
+    <div style="display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;">
+      <div>
+        <div style="display: inline-block; padding: 3px 10px; background: rgba(201,84,30,.12); border: 1px solid rgba(201,84,30,.4); border-radius: 12px; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #c9541e; margin-bottom: 10px;">두 권 세트 · 한정 특가</div>
+        <div style="font-size: 18px; font-weight: 900; color: #1a1a18; margin-bottom: 6px; line-height: 1.35;">EQ + 컴프레서 두 권 세트 구매</div>
+        <div style="font-size: 13px; color: #5a5a54; line-height: 1.7; margin-bottom: 16px; word-break: keep-all;">개별 구매 시 34,000원 → 세트로 4,000원 절약. 구글폼 작성 시 "세트 구매"라고 남겨주세요.</div>
+        <a href="https://forms.gle/jKEeHspP1sVvPsJD7" style="display: inline-block; padding: 12px 28px; background: #c9541e; color: #fff; text-align: center; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 700;" target="_blank">세트로 구매 신청하기 →</a>
+      </div>
+      <div style="text-align: center; flex-shrink: 0;">
+        <div style="font-size: 12px; color: #a8a8a0; text-decoration: line-through; margin-bottom: 2px;">개별 34,000원</div>
+        <div style="font-size: 36px; font-weight: 900; color: #c9541e; line-height: 1;">30,000<span style="font-size: 15px; font-weight: 700; color: #5a5a54;">원</span></div>
+        <div style="font-size: 11px; color: #c9541e; font-weight: 700; margin-top: 4px;">4,000원 할인</div>
+      </div>
+    </div>
   </div>
 
   <!-- 컴프레서 구매자 할인 배너 -->
