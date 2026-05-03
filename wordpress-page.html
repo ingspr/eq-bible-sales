@@ -66,7 +66,7 @@
   </div>
 
   <!-- 남은 수량 카운터 -->
-  <div style="background:linear-gradient(135deg,#c9541e 0%,#a83e10 100%);border-radius:16px;padding:32px 28px;margin-bottom:32px;text-align:center;color:#fff;">
+  <div id="ma-counter" style="background:linear-gradient(135deg,#c9541e 0%,#a83e10 100%);border-radius:16px;padding:32px 28px;margin-bottom:32px;text-align:center;color:#fff;">
     <div style="font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.85;margin-bottom:10px;">EQ 완전정복 · 1기 한정 · 5월 31일 마감</div>
     <div style="font-size:14px;opacity:.9;margin-bottom:6px;">EQ 남은 수량</div>
     <div style="font-size:72px;font-weight:900;line-height:1;letter-spacing:-.03em;">
@@ -76,10 +76,27 @@
       <div id="ma-bar" style="height:100%;background:#fff;width:0%;transition:width .8s;"></div>
     </div>
   </div>
+  <!-- 마감 배너 (수량 다 차면 표시) -->
+  <div id="ma-soldout" style="display:none;background:#1a1a18;color:#fff;border-radius:16px;padding:40px 28px;margin-bottom:32px;text-align:center;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#c9541e;margin-bottom:12px;">SOLD OUT</div>
+    <div style="font-size:36px;font-weight:900;line-height:1.2;letter-spacing:-.02em;margin-bottom:10px;">1기 50권 모두 마감</div>
+    <div style="font-size:13px;opacity:.7;line-height:1.7;">관심 가져주셔서 감사합니다.<br/>2기 오픈 알림은 인스타 <b style="color:#c9541e;">@mixingart</b> 에서 받으실 수 있습니다.</div>
+  </div>
   <script>
   (function(){
     var MAX=50, API='https://script.google.com/macros/s/AKfycbzQ3qUgTvum8DdpOtDXevGGzaeK_AQdM-LEcoO89eNVHm5_kc-ScjDC5PQT-BspzxnP/exec';
-    function set(c,m){ if(m) MAX=m; c=Math.max(0,Math.min(MAX,c|0)); var r=MAX-c; document.getElementById('ma-remaining').textContent=r; document.getElementById('ma-bar').style.width=(c/MAX*100)+'%'; }
+    function set(c,m){
+      if(m) MAX=m;
+      c=Math.max(0,Math.min(MAX,c|0));
+      var r=MAX-c;
+      if (r<=0) {
+        document.getElementById('ma-counter').style.display='none';
+        document.getElementById('ma-soldout').style.display='block';
+        return;
+      }
+      document.getElementById('ma-remaining').textContent=r;
+      document.getElementById('ma-bar').style.width=(c/MAX*100)+'%';
+    }
     set(0);
     fetch(API).then(function(r){return r.json();}).then(function(d){ if(d&&typeof d.count==='number') set(d.count, d.max); }).catch(function(){});
   })();
