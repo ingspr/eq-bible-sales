@@ -489,10 +489,10 @@
   </div>
   <script>
   (function(){
-    var MAX=50;
-    function set(c){ c=Math.max(0,Math.min(MAX,c|0)); var r=MAX-c; document.getElementById('ma-remaining').textContent=r; document.getElementById('ma-bar').style.width=(c/MAX*100)+'%'; }
+    var MAX=50, API='https://script.google.com/macros/s/AKfycbzQ3qUgTvum8DdpOtDXevGGzaeK_AQdM-LEcoO89eNVHm5_kc-ScjDC5PQT-BspzxnP/exec';
+    function set(c,m){ if(m) MAX=m; c=Math.max(0,Math.min(MAX,c|0)); var r=MAX-c; document.getElementById('ma-remaining').textContent=r; document.getElementById('ma-bar').style.width=(c/MAX*100)+'%'; }
     set(0);
-    fetch('count.txt?'+Date.now()).then(function(r){return r.text();}).then(function(t){ set(parseInt(t,10)||0); }).catch(function(){});
+    fetch(API).then(function(r){return r.json();}).then(function(d){ if(d&&typeof d.count==='number') set(d.count, d.max); }).catch(function(){});
   })();
   </script>
 
