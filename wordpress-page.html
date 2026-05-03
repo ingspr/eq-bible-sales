@@ -78,10 +78,10 @@
   </div>
   <script>
   (function(){
-    var MAX=50, API='';  // Apps Script 웹앱 URL 받으면 여기 채우기
-    function set(c){ var r=Math.max(0,MAX-c); document.getElementById('ma-remaining').textContent=r; document.getElementById('ma-bar').style.width=(c/MAX*100)+'%'; }
+    var MAX=50, URL='https://ingspr.github.io/eq-bible-sales/count.txt';
+    function set(c){ c=Math.max(0,Math.min(MAX,c|0)); var r=MAX-c; document.getElementById('ma-remaining').textContent=r; document.getElementById('ma-bar').style.width=(c/MAX*100)+'%'; }
     set(0);
-    if(API) fetch(API).then(function(r){return r.json();}).then(function(d){ if(d&&typeof d.count==='number') set(d.count); }).catch(function(){});
+    fetch(URL+'?'+Date.now()).then(function(r){return r.text();}).then(function(t){ set(parseInt(t,10)||0); }).catch(function(){});
   })();
   </script>
 
