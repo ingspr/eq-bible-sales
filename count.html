@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>남은 수량</title>
+<title>판매된 수량</title>
 <style>
 * { box-sizing:border-box; margin:0; padding:0; }
 html,body { background:transparent; font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif; }
@@ -24,7 +24,7 @@ html,body { background:transparent; font-family:'Apple SD Gothic Neo','Noto Sans
 <body>
 <div id="ma-counter" class="ma-counter">
   <div class="ma-tag">EQ 완전정복 · 1기 한정 · 5월 31일 마감</div>
-  <div class="ma-label">EQ 남은 수량</div>
+  <div class="ma-label">EQ 판매된 수량</div>
   <div class="ma-num"><span id="ma-remaining">--</span><span> / 50권</span></div>
   <div class="ma-bar-wrap"><div id="ma-bar" class="ma-bar"></div></div>
 </div>
@@ -39,13 +39,12 @@ html,body { background:transparent; font-family:'Apple SD Gothic Neo','Noto Sans
   function set(c,m){
     if(m) MAX=m;
     c=Math.max(0,Math.min(MAX,c|0));
-    var r=MAX-c;
-    if (r<=0) {
+    if (c >= MAX) {
       document.getElementById('ma-counter').style.display='none';
       document.getElementById('ma-soldout').style.display='block';
       return;
     }
-    document.getElementById('ma-remaining').textContent=r;
+    document.getElementById('ma-remaining').textContent=c;
     document.getElementById('ma-bar').style.width=(c/MAX*100)+'%';
   }
   set(0);

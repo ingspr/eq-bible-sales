@@ -476,10 +476,10 @@
 </head>
 <body>
 
-  <!-- 남은 수량 카운터 (최상단) -->
+  <!-- 판매된 수량 카운터 (최상단) -->
   <div id="ma-counter" style="background:linear-gradient(135deg,#c9541e 0%,#a83e10 100%);color:#fff;text-align:center;padding:36px 20px 32px;">
     <div style="font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.85;margin-bottom:10px;">EQ 완전정복 · 1기 한정 · 5월 31일 마감</div>
-    <div style="font-size:14px;opacity:.9;margin-bottom:4px;">EQ 남은 수량</div>
+    <div style="font-size:14px;opacity:.9;margin-bottom:4px;">EQ 판매된 수량</div>
     <div style="font-size:96px;font-weight:900;line-height:1;letter-spacing:-.04em;">
       <span id="ma-remaining">--</span><span style="font-size:36px;font-weight:700;opacity:.7;"> / 50권</span>
     </div>
@@ -499,13 +499,12 @@
     function set(c,m){
       if(m) MAX=m;
       c=Math.max(0,Math.min(MAX,c|0));
-      var r=MAX-c;
-      if (r<=0) {
+      if (c >= MAX) {
         document.getElementById('ma-counter').style.display='none';
         document.getElementById('ma-soldout').style.display='block';
         return;
       }
-      document.getElementById('ma-remaining').textContent=r;
+      document.getElementById('ma-remaining').textContent=c;
       document.getElementById('ma-bar').style.width=(c/MAX*100)+'%';
     }
     set(0);
